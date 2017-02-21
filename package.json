@@ -1,0 +1,33 @@
+{
+  "name": "xsolve",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {},
+  "author": "Artur Nowak <nowak.art@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-react": "^6.23.0",
+    "eslint": "^3.15.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^4.0.0",
+    "eslint-plugin-react": "^6.10.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  },
+  "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "express": "^4.14.1",
+    "immutable": "^3.8.1",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "react-redux": "^5.0.2",
+    "react-router": "^3.0.2",
+    "redux": "^3.6.0",
+    "redux-logger": "^2.8.1",
+    "redux-promise-middleware": "^4.2.0",
+    "redux-thunk": "^2.2.0"
+  }
+}
