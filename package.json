@@ -5,6 +5,9 @@
   "repository": {},
   "author": "Artur Nowak <nowak.art@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server"
+  },
   "devDependencies": {
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
