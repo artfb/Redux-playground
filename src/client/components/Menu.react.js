@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-export default () => {
+export default ({ forId }) => {
   return (
     <div>
       <Link to="/">Home Page</Link><br />
-      <Link to="/hello">Hello Page</Link><br />
-      <Link to="/table">Table Page</Link>
+      <Link to={`/user/${forId}/albums`}>Albums</Link>
+      <Link to={`/user/${forId}/photos`}>Photos</Link>
     </div>
   );
-}
+};

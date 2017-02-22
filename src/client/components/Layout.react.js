@@ -3,12 +3,11 @@ import Content from './Content.react';
 import Menu from './Menu.react';
 import Map from './Map.react';
 
-export default ({ children, app }) => {
+export default ({ children, app, router, fetchUsers }) => {
   return (
     <div>
-      <Map users={app.users} />
+      <Map users={app.users} router={router} fetchUsers={fetchUsers} />
       <div style={{ position: 'absolute', right: 0 }}>
-        <Menu />
         {React.Children.map(children,
           child => React.cloneElement(child, {
             ...app,

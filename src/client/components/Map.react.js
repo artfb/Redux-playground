@@ -20,25 +20,31 @@ export default class Map extends React.Component {
     this.map = null;
   }
 
+  componentWillMount() {
+    this.props.fetchUsers();
+  }
+
   componentDidMount() {
     const map = new window.google.maps.Map(document.getElementById('map'), {
       zoom: 2,
-      center: { lat: 0, lng: 0 }
+      center: { lat: 0, lng: 0 },
     });
 
     this.map = map;
   }
 
   componentWillReceiveProps(nextProps) {
-    const users = nextProps.users.toJS();
-    users.users.map(user => {
-      console.log(user);
-      new window.google.maps.Marker({
+    const { users, router } = nextProps;
+    users.get('usersList').map((user) => {
+      const marker = new window.google.maps.Marker({
         map: this.map,
         position: {
           lat: parseFloat(user.address.geo.lat),
           lng: parseFloat(user.address.geo.lng),
         },
+      });
+      marker.addListener('click', () => {
+        router.push(`/user/${user.id}`);
       });
     });
   }

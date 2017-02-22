@@ -1,5 +1,7 @@
 import App from '../client/containers/App';
 import Content from '../client/components/Content.react';
+import AlbumsPage from '../client/containers/AlbumsPage';
+import PhotosPage from '../client/containers/PhotosPage';
 
 export default function createRoutes() {
   return {
@@ -20,14 +22,24 @@ export default function createRoutes() {
             name: 'helloPage',
           },
           {
-            path: '/table',
+            path: '/user/:userId',
             getComponent(nextState, cb) {
               require.ensure([], (require) => {
-                const TablePage = require('../client/containers/TablePage.js').default;
-                cb(null, TablePage);
-              }, 'table');
+                const UserPage = require('../client/containers/UserPage.js').default;
+                cb(null, UserPage);
+              }, 'user');
             },
-            name: 'tablePage',
+            name: 'userPage',
+            childRoutes: [
+              {
+                path: 'albums',
+                component: AlbumsPage,
+              },
+              {
+                path: 'photos',
+                component: PhotosPage,
+              },
+            ],
           },
         ],
       },

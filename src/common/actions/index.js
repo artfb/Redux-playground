@@ -1,32 +1,53 @@
-export const errMessage = message => ({
+const request = (url, options = {}) =>
+  new Promise((resolve, reject) => {
+    if (!url) reject(new Error('URL parameter required'));
+
+    fetch(url, options)
+    .then((response) => {
+      if (response.ok) {
+        resolve(response.json());
+      }
+      reject({
+        errorText: response.statusText,
+        errorCode: response.status,
+      });
+    })
+    .then((response) => {
+      if (response.errors) reject(response.errors);
+      else resolve(response);
+    })
+    .catch(reject);
+  });
+
+const errMessage = message => ({
   type: 'ERROR_MESSAGE',
   payload: message,
 });
 
-export const fetchData = () => (dispatch, getState) => {
-  const getPromise = () => new Promise((resolve, reject) => {
-    try {
-      // 400
-      // fetch('http://www.mocky.io/v2/58ab6bdd100000411b4b6475')
-      // 500
-      // fetch('http://www.mocky.io/v2/58ab84a810000034025148f5')
-      fetch('http://jsonplaceholder.typicode.com/users')
-      .then((response) => {
-        if (response.ok) {
-          resolve(response.json());
-        } else {
-          reject(response.statusText);
-        }
-      }).catch(e => reject(e));
-    } catch (e) {
-      dispatch(errMessage(e));
-    }
-  });
+export const fetchPhotos = (albumId) => {
+  const forId = parseInt(albumId, 10);
+  return request(`http://jsonplaceholder.typicode.com/albums/${forId}/photos`);
+};
+
+export const fetchAlbums = userId => (dispatch) => {
+  const forId = parseInt(userId, 10);
 
   dispatch({
-    type: 'LOAD_USERS',
-    payload: getPromise(),
+    type: 'FETCH_ALBUMS',
+    payload: request(`http://jsonplaceholder.typicode.com/albums?userId=${forId}`)
+      .then(albums => Promise.all(
+        // for sake of simplicity
+        albums.slice(0, 1).map(album => fetchPhotos(album.id)),
+      )
+      .then(photos => ({ albums, forId, photos: [].concat(...photos) }))),
   })
-  .then(() => console.log('keke', getState().users.toJS()))
-  .catch(e => dispatch(errMessage(`Caught rejection ${e}`)));
+  .catch(e => dispatch(errMessage(`Caught rejection: ${e.errorText}`)));
+};
+
+export const fetchUsers = () => (dispatch) => {
+  dispatch({
+    type: 'FETCH_USERS',
+    payload: request('http://jsonplaceholder.typicode.com/users'),
+  })
+  .catch(e => dispatch(errMessage(`Caught rejection: ${e.errorText}`)));
 };

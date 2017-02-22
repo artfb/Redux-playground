@@ -1,15 +1,13 @@
-import { Record } from 'immutable';
+import { Record, List } from 'immutable';
 
 const InitialState = Record({
-  users: [],
-  currentUser: null
+  usersList: List([]),
 });
 
 const usersReducer = (state = new InitialState(), action) => {
   switch (action.type) {
-    case 'LOAD_USERS_FULFILLED':
-      console.log(action.payload);
-      return state.update('users', () => action.payload);
+    case 'FETCH_USERS_FULFILLED':
+      return state.update('usersList', () => action.payload);
     default:
       return state;
   }
