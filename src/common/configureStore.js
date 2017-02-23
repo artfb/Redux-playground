@@ -10,8 +10,6 @@ import createEngine from 'redux-storage-engine-localstorage';
 import appReducer from './reducers';
 
 const configureStore = (preloadedState, isBrowser = false) => {
-  const logger = createLogger();
-
   const engineKey = 'my-app-redux-storage';
   const engine = createEngine(engineKey);
   let decoratedEngine = storageFilter(engine, [
@@ -19,16 +17,22 @@ const configureStore = (preloadedState, isBrowser = false) => {
   ]);
   decoratedEngine = storageDebounce(decoratedEngine, 300);
 
+  const middlewares = [
+    thunk,
+    promiseMiddleware(),
+    createStorageMiddleware(decoratedEngine, [], [
+      'SET_PER_PAGE',
+    ]),
+  ];
+  if (isBrowser) {
+    const logger = createLogger();
+    middlewares.push(logger);
+  }
   const store = createStore(
     appReducer,
     preloadedState,
     applyMiddleware(
-      thunk,
-      promiseMiddleware(),
-      createStorageMiddleware(decoratedEngine, [], [
-        'SET_PER_PAGE',
-      ]),
-      logger,
+      ...middlewares,
     ),
   );
 

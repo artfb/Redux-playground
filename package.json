@@ -1,7 +1,7 @@
 {
-  "name": "xsolve",
+  "name": "Redux playground",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/client/index.js",
   "repository": {},
   "author": "Artur Nowak <nowak.art@gmail.com>",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "dev": "NODE_ENV=development webpack-dev-server",
     "build": "NODE_ENV=production webpack",
     "serve": "NODE_ENV=production node build/server",
-    "prod": "NODE_ENV=production webpack && NODE_ENV=production node build/server"
+    "prod": "yarn run  && NODE_ENV=production node build/server"
   },
   "devDependencies": {
     "babel-core": "^6.23.1",
@@ -58,9 +58,6 @@
     "require-ensure": "^1.0.2",
     "resolve-url-loader": "^2.0.0",
     "webpack": "^2.2.1",
-    "webpack-dev-middleware": "^1.10.1",
-    "webpack-hot-middleware": "^2.17.0",
-    "webpack-isomorphic-tools": "^2.6.6",
     "webpack-node-externals": "^1.5.4"
   }
 }

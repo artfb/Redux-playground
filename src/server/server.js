@@ -20,7 +20,6 @@ const port = 3000;
 
 app.use(Express.static(path.join(__dirname, '/')));
 
-// This is fired every time the server side receives a request
 app.use(handleRender);
 
 app.listen(port, (error) => {
@@ -39,9 +38,6 @@ function handleRender(req, res) {
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search);
     } else if (renderProps) {
-      // You can also check renderProps.components or renderProps.routes for
-      // your "not found" component or route respectively, and send a 404 as
-      // below, if you're using a catch-all route.
       const { store } = configureStore();
       fetchComponentData(store.dispatch, renderProps.components, renderProps.params)
         .then(() => {
@@ -62,10 +58,8 @@ function handleRender(req, res) {
             </Provider>,
           );
 
-          // Grab the initial state from our Redux store
           const finalState = store.getState();
 
-          // Send the rendered page back to the client
           res.status(200).send(renderFullPage({ html, css }, finalState));
         });
     } else {
@@ -81,7 +75,7 @@ function renderFullPage({ html, css }, preloadedState) {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>devServer</title>
+        <title>Redux playground</title>
         <style type="text/css">${[...css].join('')}</style>
       </head>
       <body>

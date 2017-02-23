@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
 import { routerShape } from 'react-router';
-import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Map from '../Map.react';
 import { fetchUsers } from '../../../common/actions';
-import s from './style.scss';
 
 class Layout extends React.Component {
 
@@ -42,4 +40,4 @@ class Layout extends React.Component {
   }
 }
 
-export default withStyles(s)(Layout);
+export default Layout;
