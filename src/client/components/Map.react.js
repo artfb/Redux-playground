@@ -1,41 +1,41 @@
-import React from 'react';
-
-// export default ({ users }) => {
-//   console.log(users.toJS());
-//   const map = new window.google.maps.Map(document.getElementById('map'), {
-//     zoom: 4,
-//     center: { lat: 0, lng: 0 }
-//   });
-//
-//   return (
-//     <div>
-//       <div id="map" style={{ top: 0, bottom: 0, left: 0, right: 0, position: 'absolute' }} />
-//     </div>
-//   );
-// };
+/* eslint-env browser */
+import React, { PropTypes } from 'react';
+import { routerShape } from 'react-router';
 
 export default class Map extends React.Component {
+
+  static propTypes = {
+    router: routerShape.isRequired,
+    usersList: PropTypes.array.isRequired,
+  }
   constructor(props) {
     super(props);
     this.map = null;
   }
 
-  componentWillMount() {
-    this.props.fetchUsers();
-  }
-
   componentDidMount() {
+    const { usersList } = this.props;
     const map = new window.google.maps.Map(document.getElementById('map'), {
       zoom: 2,
       center: { lat: 0, lng: 0 },
     });
 
     this.map = map;
+
+    if (usersList.length) {
+      this.populateUsers(usersList);
+    }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { users, router } = nextProps;
-    users.get('usersList').map((user) => {
+  componentWillUpdate(nextProps) {
+    if (nextProps.usersList.length !== this.props.usersList.length) {
+      this.populateUsers(nextProps.usersList);
+    }
+  }
+
+  populateUsers(users) {
+    const { router } = this.props;
+    users.forEach((user) => {
       const marker = new window.google.maps.Marker({
         map: this.map,
         position: {
@@ -43,11 +43,13 @@ export default class Map extends React.Component {
           lng: parseFloat(user.address.geo.lng),
         },
       });
+
       marker.addListener('click', () => {
         router.push(`/user/${user.id}`);
       });
     });
   }
+
   render() {
     return (
       <div>

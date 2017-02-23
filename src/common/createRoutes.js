@@ -1,7 +1,7 @@
 import App from '../client/containers/App';
-import Content from '../client/components/Content.react';
 import AlbumsPage from '../client/containers/AlbumsPage';
 import PhotosPage from '../client/containers/PhotosPage';
+import Content from '../client/containers/UserPage';
 
 export default function createRoutes() {
   return {
@@ -9,37 +9,23 @@ export default function createRoutes() {
     path: '/',
     childRoutes: [
       {
+        path: '/user/:userId',
         component: Content,
+        // getComponent(nextState, cb) {
+        //   require.ensure([], (require) => {
+        //     const UserPage = require('../client/containers/UserPage.js').default;
+        //     cb(null, UserPage);
+        //   }, 'user');
+        // },
+        name: 'userPage',
         childRoutes: [
           {
-            path: '/hello',
-            getComponent(nextState, cb) {
-              require.ensure([], (require) => {
-                const Hello = require('../client/containers/HelloPage.react').default;
-                cb(null, Hello);
-              }, 'hello');
-            },
-            name: 'helloPage',
+            path: 'albums',
+            component: AlbumsPage,
           },
           {
-            path: '/user/:userId',
-            getComponent(nextState, cb) {
-              require.ensure([], (require) => {
-                const UserPage = require('../client/containers/UserPage.js').default;
-                cb(null, UserPage);
-              }, 'user');
-            },
-            name: 'userPage',
-            childRoutes: [
-              {
-                path: 'albums',
-                component: AlbumsPage,
-              },
-              {
-                path: 'photos',
-                component: PhotosPage,
-              },
-            ],
+            path: 'photos',
+            component: PhotosPage,
           },
         ],
       },

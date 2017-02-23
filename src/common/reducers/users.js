@@ -1,7 +1,7 @@
 import { Record, List } from 'immutable';
 
 const InitialState = Record({
-  usersList: List([]),
+  usersList: List(),
 });
 
 const usersReducer = (state = new InitialState(), action) => {

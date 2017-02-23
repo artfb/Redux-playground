@@ -1,3 +1,6 @@
+import fetch from 'isomorphic-fetch';
+import { fromJS } from 'immutable';
+
 const request = (url, options = {}) =>
   new Promise((resolve, reject) => {
     if (!url) reject(new Error('URL parameter required'));
@@ -29,10 +32,10 @@ export const fetchPhotos = (albumId) => {
   return request(`http://jsonplaceholder.typicode.com/albums/${forId}/photos`);
 };
 
-export const fetchAlbums = userId => (dispatch) => {
+export const fetchAlbums = ({ userId }) => (dispatch) => {
   const forId = parseInt(userId, 10);
 
-  dispatch({
+  return dispatch({
     type: 'FETCH_ALBUMS',
     payload: request(`http://jsonplaceholder.typicode.com/albums?userId=${forId}`)
       .then(albums => Promise.all(
@@ -44,10 +47,18 @@ export const fetchAlbums = userId => (dispatch) => {
   .catch(e => dispatch(errMessage(`Caught rejection: ${e.errorText}`)));
 };
 
-export const fetchUsers = () => (dispatch) => {
-  dispatch({
-    type: 'FETCH_USERS',
-    payload: request('http://jsonplaceholder.typicode.com/users'),
-  })
-  .catch(e => dispatch(errMessage(`Caught rejection: ${e.errorText}`)));
-};
+export const fetchUsers = () => dispatch => dispatch({
+  type: 'FETCH_USERS',
+  payload: request('http://jsonplaceholder.typicode.com/users').then(response => fromJS(response)),
+})
+.catch(e => dispatch(errMessage(`Caught rejection: ${e.errorText}`)));
+
+export const setPerPage = perPage => ({
+  type: 'SET_PER_PAGE',
+  payload: perPage,
+});
+
+export const loadPerPage = perPage => ({
+  type: 'LOAD_PER_PAGE',
+  payload: perPage,
+});

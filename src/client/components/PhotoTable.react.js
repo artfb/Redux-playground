@@ -1,17 +1,21 @@
 import React from 'react';
 
 class Table extends React.Component {
+  static propTypes = {
+    items: React.PropTypes.array.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      perPage: 8,
       currentPage: 1,
     };
   }
+
   render() {
-    const { items } = this.props;
+    const { items, handlePerPageChange, perPage } = this.props;
     const maxPage = Math.ceil(items.length / this.state.perPage);
-    const { currentPage, perPage } = this.state;
+    const { currentPage } = this.state;
     return (
       Boolean(items.length) && <div>
         <button
@@ -24,25 +28,29 @@ class Table extends React.Component {
             currentPage: currentPage === maxPage ? maxPage : currentPage + 1,
           })}
         >up</button>
-        <input
+        <select
           onChange={(e) => {
             this.setState({
               perPage: e.target.value,
               currentPage: 1,
-            });
+            }, () => handlePerPageChange(this.state.perPage));
           }}
-          type="number"
           defaultValue={perPage}
-          max={items.length}
-        />
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="15">15</option>
+        </select>
         <table>
           <tbody>
-            {items.slice((currentPage - 1) * perPage, perPage * currentPage).map(item => <tr>
-              <td>{item.id}</td>
-              <td>
-                <img src={item.thumbnailUrl} />
-              </td>
-            </tr>)}
+            <tr>
+              {items.slice((currentPage - 1) * perPage, perPage * currentPage).map(item =>
+                <td key={`photo-${item.id}`}>
+                  <img src={item.thumbnailUrl} />
+                  {item.id}
+                </td>,
+              )}
+            </tr>
           </tbody>
         </table>
       </div>

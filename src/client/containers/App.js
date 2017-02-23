@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Layout from '../components/Layout.react';
+import Layout from '../components/Layout/Layout.react';
 import * as Actions from '../../common/actions';
 
 export default connect(state => ({

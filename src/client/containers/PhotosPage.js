@@ -1,24 +1,44 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import Table from '../components/Table.react';
-import { fetchAlbums } from '../../common/actions';
+import PhotoTable from '../components/PhotoTable.react';
+import { fetchAlbums, setPerPage } from '../../common/actions';
 
 class Photos extends React.Component {
-  componentWillMount() {
-    this.props.fetchAlbums(this.props.params.userId);
+
+  static propTypes = {
+    photos: PropTypes.array.isRequired,
+    perPage: PropTypes.number.isRequired,
+    fetchAlbums: PropTypes.func.isRequired,
+    setPerPage: PropTypes.func.isRequired,
+    params: PropTypes.shape({
+      userId: PropTypes.string.isRequired,
+    }).isRequired,
   }
-  componentDidMount() {
+
+  static needs = [
+    fetchAlbums,
+  ]
+
+  componentWillMount() {
+    const { photos, params } = this.props;
+    if (photos.forId !== parseInt(params.userId, 10)) {
+      this.props.fetchAlbums(params);
+    }
   }
 
   render() {
-    // if (this.props.albums.get('albums', false) && this.props.albums.get('forId') === parseInt(this.props.params.userId, 10)) {
-    //   return (<Table items={this.props.albums.get('photos')} />);
-    // }
-
-    return <Table items={this.props.photos.toJS().photos} />;
+    const { photos, perPage } = this.props;
+    return (
+      <PhotoTable
+        items={photos}
+        perPage={perPage}
+        handlePerPageChange={this.props.setPerPage}
+      />
+    );
   }
 }
 
 export default connect(state => ({
-  photos: state.photos,
-}), { fetchAlbums })(Photos);
+  photos: state.photos.get('photos').toJS(),
+  perPage: parseInt(state.photos.get('perPage'), 10),
+}), { fetchAlbums, setPerPage })(Photos);

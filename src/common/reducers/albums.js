@@ -1,7 +1,7 @@
-import { Record, List } from 'immutable';
+import { Record, List, fromJS } from 'immutable';
 
 const InitialState = Record({
-  albums: List([]),
+  albums: List(),
   forId: null,
 });
 
@@ -9,7 +9,7 @@ const albumsReducer = (state = new InitialState(), action) => {
   switch (action.type) {
     case 'FETCH_ALBUMS_FULFILLED':
       return state
-        .set('albums', action.payload.albums)
+        .set('albums', fromJS(action.payload.albums))
         .set('forId', action.payload.forId);
     default:
       return state;

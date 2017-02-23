@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import AlbumsList from '../components/AlbumsList.react';
 import { fetchAlbums } from '../../common/actions';
 
 
 class Albums extends React.Component {
+  static defaultProps = {
+    forId: null,
+  }
+
+  static propTypes = {
+    albums: PropTypes.array.isRequired,
+    forId: PropTypes.any,
+    fetchAlbums: PropTypes.func.isRequired,
+    params: PropTypes.shape({
+      userId: PropTypes.string,
+    }).isRequired,
+  }
+  static needs = [
+    fetchAlbums,
+  ]
+
   componentWillMount() {
-    this.props.fetchAlbums(this.props.params.userId);
+    const { forId, params } = this.props;
+    if (forId !== parseInt(params.userId, 10)) {
+      this.props.fetchAlbums(params);
+    }
   }
 
   render() {
-    if (this.props.albums.get('albums', false) && this.props.albums.get('forId') === parseInt(this.props.params.userId, 10)) {
-      return (<AlbumsList items={this.props.albums.get('albums')} />);
+    if (this.props.forId === parseInt(this.props.params.userId, 10)) {
+      return (<AlbumsList items={this.props.albums} />);
     }
 
     return <div />;
@@ -19,5 +38,6 @@ class Albums extends React.Component {
 }
 
 export default connect(state => ({
-  albums: state.albums,
+  albums: state.albums.get('albums').toJS(),
+  forId: state.albums.get('forId'),
 }), { fetchAlbums })(Albums);
