@@ -45,7 +45,7 @@ export default class Map extends React.Component {
       });
 
       marker.addListener('click', () => {
-        router.push(`/user/${user.id}`);
+        router.push(`/user/${user.id}/albums`);
       });
     });
   }

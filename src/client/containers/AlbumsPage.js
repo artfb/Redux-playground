@@ -28,6 +28,13 @@ class Albums extends React.Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    // if (parseInt(nextProps.params.userId, 10) !== this.props.forId) {
+    if (nextProps.params.userId !== this.props.params.userId) {
+      this.props.fetchAlbums(nextProps.params);
+    }
+  }
+
   render() {
     if (this.props.forId === parseInt(this.props.params.userId, 10)) {
       return (<AlbumsList items={this.props.albums} />);

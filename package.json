@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "NODE_ENV=development webpack-dev-server",
     "build": "NODE_ENV=production webpack",
+    "serve": "NODE_ENV=production node build/server",
     "prod": "NODE_ENV=production webpack && NODE_ENV=production node build/server"
   },
   "devDependencies": {

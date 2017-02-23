@@ -1,11 +1,14 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
-const Menu = ({ forId }) => <div>
-  <Link to="/">Home Page</Link><br />
-  <Link to={`/user/${forId}/albums`}>Albums</Link>
-  <Link to={`/user/${forId}/photos`}>Photos</Link>
-</div>;
+const Menu = ({ forId }) => <ul className="nav nav-tabs">
+  <li role="presentation">
+    <Link to={`/user/${forId}/albums`} activeClassName="active">Albums</Link>
+  </li>
+  <li role="presentation">
+    <Link to={`/user/${forId}/photos`} activeClassName="active">Photos</Link>
+  </li>
+</ul>;
 
 Menu.propTypes = {
   forId: PropTypes.number.isRequired,

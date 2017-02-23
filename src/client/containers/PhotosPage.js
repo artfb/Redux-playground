@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import PhotoTable from '../components/PhotoTable.react';
+import PhotoTable from '../components/PhotoTable/PhotoTable.react';
 import { fetchAlbums, setPerPage } from '../../common/actions';
 
 class Photos extends React.Component {

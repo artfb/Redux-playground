@@ -1,15 +1,11 @@
-$backgroundBg: #fff;
-
-.container {
-    background: $backgroundBg;
-    height: 100%
-}
-
 .UserCard {
-    position: absolute;
-    top: 20%;
-    left: 20%;
-    right: 20%;
-    bottom: 20%;
-    overflow: auto;
+    // overwrite .modal styles
+    position: absolute !important;
+    top: 100px !important;
+    right: 100px !important;
+    left: auto !important;
+    bottom: auto !important;
+    overflow: hidden;
+    display: block !important;
+
 }

@@ -89,14 +89,6 @@ const server = {
         NODE_ENV: JSON.stringify(isDevelopment ? 'development' : 'production'),
       },
     }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: isDevelopment,
-      compress: {
-        screw_ie8: true, // eslint-disable-line camelcase
-        warnings: false,
-        drop_console: true,
-      },
-    }),
   ],
   node: {
     console: false,

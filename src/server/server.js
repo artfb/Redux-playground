@@ -23,6 +23,14 @@ app.use(Express.static(path.join(__dirname, '/')));
 // This is fired every time the server side receives a request
 app.use(handleRender);
 
+app.listen(port, (error) => {
+  if (error) {
+    console.error(error);
+  } else {
+    console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
+  }
+});
+
 function handleRender(req, res) {
   const routes = createRoutes();
   match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
@@ -88,11 +96,3 @@ function renderFullPage({ html, css }, preloadedState) {
 
     `;
 }
-
-app.listen(port, (error) => {
-  if (error) {
-    console.error(error);
-  } else {
-    console.info(`==> 🌎  Listening on port ${port}. Open up http://localhost:${port}/ in your browser.`);
-  }
-});

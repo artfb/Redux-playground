@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const AlbumsList = ({ items }) => (
-  <table>
+  <table className="table">
     <tbody>
       {items.map(item =>
         <tr key={`album-${item.id}`}>
