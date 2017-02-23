@@ -42,6 +42,7 @@ export default class Map extends React.Component {
           lat: parseFloat(user.address.geo.lat),
           lng: parseFloat(user.address.geo.lng),
         },
+        title: user.name,
       });
 
       marker.addListener('click', () => {

@@ -27,6 +27,10 @@ const errMessage = message => ({
   payload: message,
 });
 
+export const closeError = () => ({
+  type: 'CLOSE_ERROR_MESSAGE',
+});
+
 export const fetchPhotos = (albumId) => {
   const forId = parseInt(albumId, 10);
   return request(`http://jsonplaceholder.typicode.com/albums/${forId}/photos`);
@@ -50,6 +54,7 @@ export const fetchAlbums = ({ userId }) => (dispatch) => {
 export const fetchUsers = () => dispatch => dispatch({
   type: 'FETCH_USERS',
   payload: request('http://jsonplaceholder.typicode.com/users').then(response => fromJS(response)),
+  // payload: request('http://www.mocky.io/v2/58af64131200000c0474226b').then(response => fromJS(response)),
 })
 .catch(e => dispatch(errMessage(`Caught rejection: ${e.errorText}`)));
 

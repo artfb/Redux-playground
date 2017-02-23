@@ -1,11 +1,18 @@
 import { Record } from 'immutable';
 
 const InitialState = Record({
-  test: 'test',
+  error: null,
 });
 
 const appReducer = (state = new InitialState(), action) => {
-  return state;
+  switch (action.type) {
+    case 'ERROR_MESSAGE':
+      return state.set('error', action.payload);
+    case 'CLOSE_ERROR_MESSAGE':
+      return state.set('error', null);
+    default:
+      return state;
+  }
 };
 
 export default appReducer;

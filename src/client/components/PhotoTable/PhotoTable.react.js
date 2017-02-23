@@ -23,19 +23,6 @@ class Table extends React.Component {
     return (
       Boolean(items.length) && <div className="row">
         <div className="col-xs-12">
-          Show: <select
-            onChange={(e) => {
-              this.setState({
-                perPage: e.target.value,
-                currentPage: 1,
-              }, () => handlePerPageChange(this.state.perPage));
-            }}
-            value={perPage}
-          >
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-          </select>
           <div className={s.tableContainer}>
             <table className="table table-responsive">
               <tbody>
@@ -49,6 +36,21 @@ class Table extends React.Component {
                 </tr>
               </tbody>
             </table>
+          </div>
+          <div className="text-center">
+          Show: <select
+            onChange={(e) => {
+              this.setState({
+                perPage: e.target.value,
+                currentPage: 1,
+              }, () => handlePerPageChange(this.state.perPage));
+            }}
+            value={perPage}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+          </select>
           </div>
           <ul className="pager">
             <li>
